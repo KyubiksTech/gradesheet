@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Report Card</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .report-card {
+      background-color: #E4784A;
+      width: 210mm;
+      height: 297mm;
+      padding: 10mm;
+      margin: 0 auto;
+    }
+
+    .report-card-border {
+      box-sizing: border-box;
+      border: 4px double #000;
+      height: 100%;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      color: #000;
+      font-family: "Algerian", "Times New Roman", serif;
+      border: 4px double #000;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    .header-logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      object-fit: contain;
+    }
+
+    .header-text {
+      text-align: center;
+    }
+
+    .header-text h1 { font-size: 25px; margin: 0; font-weight: normal; }
+    .header-text h2 { font-size: 20px; margin: 2px 0; font-weight: normal; }
+    .header-text h3 { font-size: 18px; margin: 2px 0; font-weight: normal; }
+    .header-text h4 { font-size: 20px; margin: 2px 0; font-weight: normal; }
+    .header-text p  { font-size: 12px; margin: 2px 0; font-weight: normal; }
+
+    .student-info {
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .student-info p {
+      margin: 4px 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .name-date-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .date-field {
+      font-size: 15px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .roll-no-group {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 20px;
+    }
+
+    .roll-no-group strong {
+      margin: 0;
+      padding: 0;
+    }
+
+    .roll-no-value {
+      display: none;
+    }
+
+    .marks-table, .grade-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+    }
+
+    .marks-table th, .marks-table td,
+    .grade-table th, .grade-table td {
+      border: 1px solid #000;
+      padding: 4px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .remarks {
+      margin: 5px 0;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #promotionClass {
+      font-weight: normal;
+    }
+
+    .signatures {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+
+    .signatures p {
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .button-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #2e86de;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e70bf;
+    }
+
+    .student-name-input,
+    .roll-no-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #000;
+      font-size: 15px;
+      font-weight: 700;
+      color: #000;
+      font-family: Arial, sans-serif;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      vertical-align: baseline;
+      line-height: 1;
+      width: auto;
+    }
+
+    .student-name-input {
+      min-width: 100px;
+    }
+
+    .roll-no-input {
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .marks-input,
+    .total-input,
+    .grade-input,
+    .grade-point-input,
+    .result-input,
+    .rank-input,
+    .working-days-input,
+    .present-days-input,
+    .absent-days-input {
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      color: #000;
+      font-family: Arial, sans-serif;
+      outline: none;
+      padding: 0;
+      vertical-align: baseline;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .marks-input,
+    .total-input {
+      width: 40px;
+    }
+
+    .grade-input {
+      width: 30px;
+    }
+
+    .grade-point-input {
+      width: 40px;
+    }
+
+    .result-input {
+      width: 60px;
+    }
+
+    .rank-input {
+      width: 40px;
+    }
+
+    .working-days-input,
+    .present-days-input,
+    .absent-days-input {
+      width: 50px;
+    }
+
+    .class-select,
+    .section-select {
+      background: transparent;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      color: #000;
+      font-family: Arial, sans-serif;
+      outline: none;
+      padding: 0;
+      vertical-align: baseline;
+      line-height: 1;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    .class-select option,
+    .section-select option {
+      background: #E4784A;
+      color: #000;
+      font-weight: 700;
+    }
+
+    #text-measure {
+      position: absolute;
+      visibility: hidden;
+      white-space: pre;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: Arial, sans-serif;
+    }
+
+    @media print {
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        overflow: hidden !important;
+      }
+
+      .report-card {
+        margin: 0 auto !important;
+        padding: 10mm !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        box-sizing: border-box;
+        page-break-inside: avoid;
+        overflow: hidden !important;
+      }
+
+      .report-card-border {
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .button-container,
+      button {
+        display: none !important;
+      }
+
+      .header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .header-logo {
+        width: 100px !important;
+        height: 100px !important;
+        margin-right: 10px !important;
+      }
+
+      .header-text {
+        text-align: center !important;
+      }
+
+      .name-date-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+
+      .date-field {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        color: #000 !important;
+      }
+
+      .roll-no-group {
+        display: inline !important;
+        margin-left: 20px !important;
+      }
+
+      .roll-no-group strong {
+        margin: 0 !important;
+        padding: 0 !important;
+        vertical-align: middle !important;
+      }
+
+      .roll-no-input {
+        display: none !important;
+      }
+
+      .roll-no-value {
+        display: inline !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        font-family: Arial, sans-serif !important;
+        color: #000 !important;
+        vertical-align: middle !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        min-width: 30px !important;
+        width: auto !important;
+      }
+
+      #promotionClass {
+        font-weight: normal !important;
+      }
+
+      .student-name-input {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        border: none !important;
+        border-bottom: none !important;
+        background: transparent !important;
+        outline: none !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        font-family: Arial, sans-serif !important;
+        color: #000 !important;
+        vertical-align: middle !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: auto !important;
+        display: inline-block !important;
+      }
+
+      .student-name-input {
+        min-width: 100px !important;
+      }
+
+      .marks-input,
+      .total-input,
+      .grade-input,
+      .grade-point-input,
+      .result-input,
+      .rank-input,
+      .working-days-input,
+      .present-days-input,
+      .absent-days-input {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        border: none !important;
+        background: transparent !important;
+        outline: none !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        vertical-align: baseline !important;
+        line-height: 1 !important;
+        text-align: center !important;
+        margin-left: 5px !important;
+      }
+
+      .class-select,
+      .section-select {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        border: none !important;
+        background: transparent !important;
+        outline: none !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        vertical-align: baseline !important;
+        line-height: 1 !important;
+        margin-left: 5px !important;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-card" id="reportCard">
+  <div class="report-card-border">
+    <div class="header">
+      <img src="https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png" class="header-logo" width="100" height="100" crossorigin="anonymous" onerror="console.error('Logo failed to load from GitHub URL. Check the URL or CORS settings.'); alert('Logo image failed to load. Please check the URL or try a local file.');">
+      <div class="header-text">
+        <h1>MAISTHAN ENGLISH BOARDING SCHOOL</h1>
+        <h2>KAMALMUNICIPALITY-8, KAMALPUR, SINDHULI</h2>
+        <h3>GRADE - SHEET</h3>
+        <h4>FINAL TERM PROGRESS REPORT CARD - 2081</h4>
+      </div>
+    </div>
+
+    <div class="student-info">
+      <p class="name-date-row">
+        <span>
+          <strong>Student's Name:</strong>
+          <input type="text" class="student-name-input" id="studentName" value="" placeholder="">
+        </span>
+        <span class="date-field">
+          <strong>Date:</strong> <span id="nepaliDate"></span>
+        </span>
+      </p>
+      <p>
+        <strong>Class:</strong>
+        <select class="class-select" id="classSelect" onchange="updatePromotionClass()">
+          <option value="I (ONE)">I (ONE)</option>
+          <option value="II (TWO)">II (TWO)</option>
+          <option value="III (THREE)" selected>III (THREE)</option>
+          <option value="IV (FOUR)">IV (FOUR)</option>
+          <option value="V (FIVE)">V (FIVE)</option>
+          <option value="VI (SIX)">VI (SIX)</option>
+          <option value="VII (SEVEN)">VII (SEVEN)</option>
+          <option value="VIII (EIGHT)">VIII (EIGHT)</option>
+          <option value="IX (NINE)">IX (NINE)</option>
+          <option value="X (TEN)">X (TEN)</option>
+        </select>
+        <span class="roll-no-group">
+          <strong>Roll No:</strong><input type="text" class="roll-no-input" id="rollNo" value="" placeholder=""><span class="roll-no-value" id="rollNoValue"></span>
+        </span>
+        <strong style="margin-left: 20px;">Section:</strong>
+        <select class="section-select" id="sectionSelect">
+          <option value="A" selected>A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+      </p>
+    </div>
+
+    <table class="marks-table" id="marksTable">
+      <thead>
+        <tr>
+          <th rowspan="2">S.N</th>
+          <th rowspan="2">SUBJECTS</th>
+          <th rowspan="2">Full Marks</th>
+          <th rowspan="2">Pass Mark</th>
+          <th colspan="5">Marks Obtained</th>
+          <th rowspan="2">Grade</th>
+          <th rowspan="2">Grade Point</th>
+        </tr>
+        <tr>
+          <th>1st 10%</th>
+          <th>2nd 20%</th>
+          <th>3rd 20%</th>
+          <th>4th 50%</th>
+          <th>Total 100%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td>English</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="eng1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="eng2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="eng3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="eng4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="engTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="engGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="engGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>2</td><td>Math</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="math1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="math2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="math3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="math4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="mathTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="mathGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="mathGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>3</td><td>Nepali</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="nep1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="nep2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="nep3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="nep4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="nepTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="nepGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="nepGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>4</td><td>Science</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="sci1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="sci2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="sci3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="sci4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="sciTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="sciGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="sciGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>5</td><td>Social Studies</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="soc1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="soc2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="soc3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="soc4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="socTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="socGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="socGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>6</td><td>G.K</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="gk1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="gk2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="gk3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="gk4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="gkTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="gkGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="gkGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>7</td><td>Computer</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="comp1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="comp2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="comp3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="comp4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="compTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="compGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="compGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>8</td><td>Moral Science</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="moral1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="moral2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="moral3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="moral4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="moralTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="moralGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="moralGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>9</td><td>Drawing</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="draw1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="draw2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="draw3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="draw4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="drawTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="drawGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="drawGradePoint" value="" readonly></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"><strong>Total marks</strong></td>
+          <td colspan="2" id="totalMarks"></td>
+          <td></td>
+          <td colspan="4"><strong>Grade Point Average (GPA)</strong></td>
+          <td colspan="2" id="gpa"></td>
+        </tr>
+        <tr>
+          <td colspan="2"><strong>Percentage</strong></td>
+          <td colspan="2" id="percentage"></td>
+          <td></td>
+          <td colspan="4"><strong>Total Working Days</strong></td>
+          <td colspan="2"><input type="text" class="working-days-input" id="workingDays" value=""></td>
+        </tr>
+        <tr>
+          <td colspan="2"><strong>Result</strong></td>
+          <td colspan="2"><input type="text" class="result-input" id="result" value="" readonly></td>
+          <td></td>
+          <td colspan="4"><strong>No. of days present</strong></td>
+          <td colspan="2"><input type="text" class="present-days-input" id="presentDays" value=""></td>
+        </tr>
+        <tr>
+          <td colspan="2"><strong>Rank</strong></td>
+          <td colspan="2"><input type="text" class="rank-input" id="rank" value=""></td>
+          <td></td>
+          <td colspan="4"><strong>No. of days absent</strong></td>
+          <td colspan="2"><input type="text" class="absent-days-input" id="absentDays" value=""></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <table class="grade-table">
+      <thead>
+        <tr>
+          <th>S.N</th><th>Interval in Percent</th><th>Grade</th><th>Description</th><th>Grade Point</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>90-100</td><td>A+</td><td>Outstanding</td><td>4.0</td></tr>
+        <tr><td>2</td><td>80-89</td><td>A</td><td>Excellent</td><td>3.6</td></tr>
+        <tr><td>3</td><td>70-79</td><td>B+</td><td>Very Good</td><td>3.2</td></tr>
+        <tr><td>4</td><td>60-69</td><td>B</td><td>Good</td><td>2.8</td></tr>
+        <tr><td>5</td><td>50-59</td><td>C+</td><td>Satisfactory</td><td>2.4</td></tr>
+        <tr><td>6</td><td>40-49</td><td>C</td><td>Acceptable</td><td>2.0</td></tr>
+        <tr><td>7</td><td>30-39</td><td>D+</td><td>Partially Acceptable</td><td>1.6</td></tr>
+        <tr><td>8</td><td>20-29</td><td>D</td><td>Insufficient</td><td>1.2</td></tr>
+        <tr><td>9</td><td>0-19</td><td>E</td><td>Very Insufficient</td><td>0.8</td></tr>
+      </tbody>
+    </table>
+
+    <table class="grade-table">
+      <thead>
+        <tr>
+          <th style="font-family: 'Algerian'; font-size: 20px;">REMARKS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="promotionClass" style="font-family: 'Algerian'; font-size: 15px;">PROMOTION GRANTED TO CLASS - IV (FOUR)</th>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="signatures">
+      <p>    _________________________<br>Class Teacher's Sign</p>
+      <p>_________________________    <br>Principal's Sign</p>
+    </div>
+  </div>
+</div>
+
+<div class="button-container">
+  <button onclick="downloadImage()">Download Report Card Image</button>
+  <button onclick="printReportCard()">Print Report Card</button>
+</div>
+
+<span id="text-measure"></span>
+
+<script>
+function gregorianToNepali(year, month, day) {
+  let nepaliYear = year + 56;
+  let nepaliMonth = month;
+  let nepaliDay = day + 17;
+  if (nepaliDay > 30) {
+    nepaliDay -= 30;
+    nepaliMonth++;
+  }
+  if (nepaliMonth > 12) {
+    nepaliMonth -= 12;
+    nepaliYear++;
+  }
+  const gregorianDate = new Date(year, month - 1, day);
+  const referenceDate = new Date(2025, 3, 11);
+  const diffDays = Math.floor((gregorianDate - referenceDate) / (1000 * 60 * 60 * 24));
+  nepaliYear = 2081;
+  nepaliMonth = 12;
+  nepaliDay = 29 + diffDays;
+  const nepaliMonths = [31, 30, 32, 31, 32, 31, 30, 29, 30, 29, 30, 30];
+  while (nepaliDay > nepaliMonths[nepaliMonth - 1]) {
+    nepaliDay -= nepaliMonths[nepaliMonth - 1];
+    nepaliMonth++;
+    if (nepaliMonth > 12) {
+      nepaliMonth = 1;
+      nepaliYear++;
+    }
+  }
+  while (nepaliDay <= 0) {
+    nepaliMonth--;
+    if (nepaliMonth <= 0) {
+      nepaliMonth = 12;
+      nepaliYear--;
+    }
+    nepaliDay += nepaliMonths[nepaliMonth - 1];
+  }
+  return `${nepaliYear}/${String(nepaliMonth).padStart(2, '0')}/${String(nepaliDay).padStart(2, '0')}`;
+}
+
+function setNepaliDate() {
+  const today = new Date();
+  const nepaliDate = gregorianToNepali(today.getFullYear(), today.getMonth() + 1, today.getDate());
+  document.getElementById('nepaliDate').textContent = nepaliDate;
+  return nepaliDate;
+}
+
+function calculateMarks() {
+  const subjects = [
+    { prefix: 'eng', totalId: 'engTotal', gradeId: 'engGrade', gradePointId: 'engGradePoint' },
+    { prefix: 'math', totalId: 'mathTotal', gradeId: 'mathGrade', gradePointId: 'mathGradePoint' },
+    { prefix: 'nep', totalId: 'nepTotal', gradeId: 'nepGrade', gradePointId: 'nepGradePoint' },
+    { prefix: 'sci', totalId: 'sciTotal', gradeId: 'sciGrade', gradePointId: 'sciGradePoint' },
+    { prefix: 'soc', totalId: 'socTotal', gradeId: 'socGrade', gradePointId: 'socGradePoint' },
+    { prefix: 'gk', totalId: 'gkTotal', gradeId: 'gkGrade', gradePointId: 'gkGradePoint' },
+    { prefix: 'comp', totalId: 'compTotal', gradeId: 'compGrade', gradePointId: 'compGradePoint' },
+    { prefix: 'moral', totalId: 'moralTotal', gradeId: 'moralGrade', gradePointId: 'moralGradePoint' },
+    { prefix: 'draw', totalId: 'drawTotal', gradeId: 'drawGrade', gradePointId: 'drawGradePoint' }
+  ];
+
+  let grandTotal = 0;
+  let totalGradePoints = 0;
+  let subjectsWithMarks = 0;
+  const fullMarksPerSubject = 100;
+  const totalSubjects = subjects.length;
+
+  subjects.forEach(subject => {
+    const mark1 = parseFloat(document.getElementById(`${subject.prefix}1`).value) || 0;
+    const mark2 = parseFloat(document.getElementById(`${subject.prefix}2`).value) || 0;
+    const mark3 = parseFloat(document.getElementById(`${subject.prefix}3`).value) || 0;
+    const mark4 = parseFloat(document.getElementById(`${subject.prefix}4`).value) || 0;
+    const total = mark1 + mark2 + mark3 + mark4;
+
+    if (mark1 || mark2 || mark3 || mark4) {
+      document.getElementById(subject.totalId).value = total.toFixed(1);
+      subjectsWithMarks++;
+
+      let grade, gradePoint;
+      if (total >= 90) { grade = 'A+'; gradePoint = 4.0; }
+      else if (total >= 80) { grade = 'A'; gradePoint = 3.6; }
+      else if (total >= 70) { grade = 'B+'; gradePoint = 3.2; }
+      else if (total >= 60) { grade = 'B'; gradePoint = 2.8; }
+      else if (total >= 50) { grade = 'C+'; gradePoint = 2.4; }
+      else if (total >= 40) { grade = 'C'; gradePoint = 2.0; }
+      else if (total >= 30) { grade = 'D+'; gradePoint = 1.6; }
+      else if (total >= 20) { grade = 'D'; gradePoint = 1.2; }
+      else { grade = 'E'; gradePoint = 0.8; }
+
+      document.getElementById(subject.gradeId).value = grade;
+      document.getElementById(subject.gradePointId).value = gradePoint.toFixed(1);
+      totalGradePoints += gradePoint;
+      grandTotal += total;
+    } else {
+      document.getElementById(subject.totalId).value = '';
+      document.getElementById(subject.gradeId).value = '';
+      document.getElementById(subject.gradePointId).value = '';
+    }
+  });
+
+  document.getElementById('totalMarks').textContent = grandTotal > 0 ? grandTotal.toFixed(1) : '';
+  const percentage = grandTotal > 0 ? (grandTotal / (fullMarksPerSubject * subjectsWithMarks)) * 100 : 0;
+  document.getElementById('percentage').textContent = percentage > 0 ? percentage.toFixed(2) : '';
+
+  const gpa = subjectsWithMarks > 0 ? totalGradePoints / subjectsWithMarks : 0;
+  document.getElementById('gpa').textContent = gpa > 0 ? gpa.toFixed(1) : '';
+
+  document.getElementById('result').value = percentage > 40 ? 'Pass' : percentage > 0 ? 'Fail' : '';
+}
+
+function updatePromotionClass() {
+  const classSelect = document.getElementById('classSelect');
+  const selectedClass = classSelect.value;
+  const promotionClassElement = document.getElementById('promotionClass');
+
+  const classProgression = {
+    "I (ONE)": "II (TWO)",
+    "II (TWO)": "III (THREE)",
+    "III (THREE)": "IV (FOUR)",
+    "IV (FOUR)": "V (FIVE)",
+    "V (FIVE)": "VI (SIX)",
+    "VI (SIX)": "VII (SEVEN)",
+    "VII (SEVEN)": "VIII (EIGHT)",
+    "VIII (EIGHT)": "IX (NINE)",
+    "IX (NINE)": "X (TEN)",
+    "X (TEN)": "COMPLETED SCHOOL"
+  };
+
+  const nextClass = classProgression[selectedClass] || selectedClass;
+  if (nextClass === "COMPLETED SCHOOL") {
+    promotionClassElement.textContent = nextClass;
+  } else {
+    promotionClassElement.textContent = `PROMOTION GRANTED TO CLASS - ${nextClass}`;
+  }
+}
+
+function resizeInputs() {
+  const nameInput = document.getElementById('studentName');
+  const measure = document.getElementById('text-measure');
+  const nameText = nameInput.value || nameInput.placeholder || '          ';
+  measure.textContent = nameText;
+  let width = measure.getBoundingClientRect().width + 10;
+  nameInput.style.width = Math.max(width, 100) + 'px';
+
+  const rollInput = document.getElementById('rollNo');
+  const rollValueSpan = document.getElementById('rollNoValue');
+  const rollText = rollInput.value || rollInput.placeholder || '  ';
+  measure.textContent = rollText;
+  width = measure.getBoundingClientRect().width + 10;
+  const finalWidth = Math.max(width, 30);
+  rollInput.style.width = finalWidth + 'px';
+  rollValueSpan.style.width = finalWidth + 'px';
+  rollValueSpan.textContent = rollInput.value || rollInput.placeholder || '  ';
+}
+
+window.onload = function() {
+  setNepaliDate();
+  calculateMarks();
+  updatePromotionClass();
+  resizeInputs();
+
+  document.getElementById('studentName').addEventListener('input', resizeInputs);
+  document.getElementById('rollNo').addEventListener('input', resizeInputs);
+};
+
+function downloadImage() {
+  resizeInputs();
+
+  const studentNameInput = document.getElementById('studentName');
+  const rollNoInput = document.getElementById('rollNo');
+  const nameOriginalBorder = studentNameInput.style.borderBottom;
+  const rollOriginalBorder = rollNoInput.style.borderBottom;
+  studentNameInput.style.borderBottom = 'none';
+  rollNoInput.style.borderBottom = 'none';
+
+  const reportCard = document.getElementById('reportCard');
+  const studentName = document.getElementById('studentName').value;
+  const classValue = document.getElementById('classSelect').value.split(' ')[0];
+  const rollNo = document.getElementById('rollNo').value;
+  const section = document.getElementById('sectionSelect').value;
+  const nepaliDate = document.getElementById('nepaliDate').textContent;
+
+  const safeStudentName = studentName.trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') || 'No_Name';
+  const safeRollNo = rollNo.trim().replace(/[^0-9]/g, '') || 'No_Roll';
+  const safeDate = nepaliDate.replace(/\//g, '-');
+  const filename = `Report_Card_${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
+
+  console.log('Starting html2canvas rendering for URL: https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png');
+  html2canvas(reportCard, {
+    scale: 4,
+    useCORS: true,
+    logging: true
+  }).then(canvas => {
+    console.log('Canvas rendered successfully');
+    studentNameInput.style.borderBottom = nameOriginalBorder;
+    rollNoInput.style.borderBottom = rollOriginalBorder;
+
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = canvas.toDataURL('image/jpeg');
+    link.click();
+    alert(`Report card saved as ${filename}`);
+  }).catch(error => {
+    console.error('html2canvas error:', error);
+    console.error('Possible cause: The logo at https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png may not have CORS headers.');
+    studentNameInput.style.borderBottom = nameOriginalBorder;
+    rollNoInput.style.borderBottom = rollOriginalBorder;
+    alert('Error saving report card: ' + error.message + '. The logo may not support CORS. Try using a local file or Base64 encoding.');
+  });
+}
+
+function printReportCard() {
+  resizeInputs();
+  window.print();
+}
+</script>
+
+</body>
+</html>
