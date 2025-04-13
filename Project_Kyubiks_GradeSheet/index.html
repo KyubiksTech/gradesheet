@@ -912,58 +912,101 @@ window.onload = function() {
   document.getElementById('rollNo').addEventListener('input', resizeInputs);
 };
 
-function downloadImage() {
-  resizeInputs();
+async function downloadImage() {
+  try {
+    // Ensure fonts are loaded
+    await document.fonts.ready;
 
-  const studentNameInput = document.getElementById('studentName');
-  const rollNoInput = document.getElementById('rollNo');
-  const rollNoValue = document.getElementById('rollNoValue');
-  const nameOriginalBorder = studentNameInput.style.borderBottom;
-  const rollOriginalBorder = rollNoInput.style.borderBottom;
-  studentNameInput.style.borderBottom = 'none';
-  rollNoInput.style.borderBottom = 'none';
-  rollNoInput.style.display = 'none';
-  rollNoValue.style.display = 'inline-block';
-  rollNoValue.textContent = rollNoInput.value || '';
+    resizeInputs();
 
-  const reportCard = document.getElementById('reportCard');
-  const studentName = document.getElementById('studentName').value;
-  const classValue = document.getElementById('classSelect').value.split(' ')[0];
-  const rollNo = document.getElementById('rollNo').value;
-  const section = document.getElementById('sectionSelect').value;
-  const nepaliDate = document.getElementById('nepaliDate').textContent;
+    // Clone the report card
+    const reportCard = document.getElementById('reportCard');
+    const clone = reportCard.cloneNode(true);
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.width = '210mm';
+    clone.style.height = '297mm';
+    document.body.appendChild(clone);
 
-  const safeStudentName = studentName.trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') || 'No_Name';
-  const safeRollNo = rollNo.trim().replace(/[^0-9]/g, '') || 'No_Roll';
-  const safeDate = nepaliDate.replace(/\//g, '-');
-  const filename = `${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
+    // Replace inputs with spans in the clone
+    const inputs = clone.querySelectorAll('input');
+    inputs.forEach(input => {
+      const span = document.createElement('span');
+      span.textContent = input.value || '';
+      span.style.fontSize = getComputedStyle(input).fontSize;
+      span.style.fontWeight = getComputedStyle(input).fontWeight;
+      span.style.fontFamily = getComputedStyle(input).fontFamily;
+      span.style.color = getComputedStyle(input).color;
+      span.style.display = 'inline-block';
+      span.style.textAlign = getComputedStyle(input).textAlign || 'left';
+      span.style.width = input.style.width || getComputedStyle(input).width;
+      span.style.padding = getComputedStyle(input).padding;
+      span.style.lineHeight = getComputedStyle(input).lineHeight;
+      span.style.verticalAlign = getComputedStyle(input).verticalAlign;
+      span.style.border = 'none';
+      span.style.background = 'transparent';
+      input.parentNode.replaceChild(span, input);
+    });
 
-  html2canvas(reportCard, {
-    scale: 3,
-    useCORS: true,
-    logging: true,
-    width: 794,
-    height: 1123
-  }).then(canvas => {
-    studentNameInput.style.borderBottom = nameOriginalBorder;
-    rollNoInput.style.borderBottom = rollOriginalBorder;
-    rollNoInput.style.display = 'inline-block';
-    rollNoValue.style.display = 'none';
-    rollNoValue.textContent = '';
+    // Replace select elements with spans
+    const selects = clone.querySelectorAll('select');
+    selects.forEach(select => {
+      const span = document.createElement('span');
+      span.textContent = select.options[select.selectedIndex].text;
+      span.style.fontSize = getComputedStyle(select).fontSize;
+      span.style.fontWeight = getComputedStyle(select).fontWeight;
+      span.style.fontFamily = getComputedStyle(select).fontFamily;
+      span.style.color = getComputedStyle(select).color;
+      span.style.display = 'inline-block';
+      span.style.padding = getComputedStyle(select).padding;
+      span.style.lineHeight = getComputedStyle(select).lineHeight;
+      span.style.verticalAlign = getComputedStyle(select).verticalAlign;
+      span.style.border = 'none';
+      span.style.background = 'transparent';
+      select.parentNode.replaceChild(span, select);
+    });
 
+    // Ensure roll number is handled
+    const rollNoValue = clone.querySelector('#rollNoValue');
+    if (rollNoValue) {
+      rollNoValue.style.display = 'inline-block';
+    }
+
+    // Generate filename
+    const studentName = document.getElementById('studentName').value;
+    const classValue = document.getElementById('classSelect').value.split(' ')[0];
+    const rollNo = document.getElementById('rollNo').value;
+    const section = document.getElementById('sectionSelect').value;
+    const nepaliDate = document.getElementById('nepaliDate').textContent;
+
+    const safeStudentName = studentName.trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') || 'No_Name';
+    const safeRollNo = rollNo.trim().replace(/[^0-9]/g, '') || 'No_Roll';
+    const safeDate = nepaliDate.replace(/\//g, '-');
+    const filename = `${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
+
+    // Capture canvas
+    const canvas = await html2canvas(clone, {
+      scale: 3,
+      useCORS: true,
+      logging: false,
+      width: 794,
+      height: 1123,
+      backgroundColor: '#E4784A'
+    });
+
+    // Clean up
+    document.body.removeChild(clone);
+
+    // Download image
     const link = document.createElement('a');
     link.download = filename;
     link.href = canvas.toDataURL('image/jpeg', 0.9);
     link.click();
     alert(`Grade Sheet saved as ${filename}`);
-  }).catch(error => {
-    studentNameInput.style.borderBottom = nameOriginalBorder;
-    rollNoInput.style.borderBottom = rollOriginalBorder;
-    rollNoInput.style.display = 'inline-block';
-    rollNoValue.style.display = 'none';
-    rollNoValue.textContent = '';
+  } catch (error) {
     alert('Error saving Grade Sheet: ' + error.message);
-  });
+    console.error(error);
+  }
 }
 
 function printReportCard() {
