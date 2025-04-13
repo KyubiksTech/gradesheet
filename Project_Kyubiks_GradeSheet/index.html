@@ -17,52 +17,67 @@
       background-color: #E4784A;
       width: 210mm;
       height: 297mm;
-      padding: 10mm;
+      padding: 8mm;
       margin: 0 auto;
+      box-sizing: border-box;
     }
 
     .report-card-border {
       box-sizing: border-box;
       border: 4px double #000;
       height: 100%;
+      padding: 5mm;
     }
 
     .header {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       color: #000;
       font-family: "Algerian", "Times New Roman", serif;
       border: 4px double #000;
-      padding: 5px;
+      padding: 4px;
       box-sizing: border-box;
+      min-height: 90px;
     }
 
     .header-logo {
-      width: 100px;
-      height: 100px;
-      margin-right: 10px;
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 80px;
+      height: 80px;
       object-fit: contain;
     }
 
     .header-text {
+      width: 100%;
       text-align: center;
     }
 
-    .header-text h1 { font-size: 25px; margin: 0; font-weight: normal; }
-    .header-text h2 { font-size: 20px; margin: 2px 0; font-weight: normal; }
-    .header-text h3 { font-size: 18px; margin: 2px 0; font-weight: normal; }
-    .header-text h4 { font-size: 20px; margin: 2px 0; font-weight: normal; }
-    .header-text p  { font-size: 12px; margin: 2px 0; font-weight: normal; }
+    .header-text h1 { font-size: 20px; margin: 0; font-weight: normal; }
+    .header-text h2 { font-size: 16px; margin: 1px 0; font-weight: normal; }
+    .header-text h3 { 
+      font-size: 15px; 
+      margin: 1px 0; 
+      font-weight: normal; 
+      border: 2px solid #000;
+      display: inline-block;
+      padding: 2px 4px;
+    }
+    .header-text h4 { font-size: 16px; margin: 1px 0; font-weight: normal; }
+    .header-text p  { font-size: 10px; margin: 1px 0; font-weight: normal; }
 
     .student-info {
-      margin-bottom: 8px;
-      font-size: 15px;
+      margin-bottom: 6px;
+      font-size: 12px;
     }
 
     .student-info p {
-      margin: 4px 0;
+      margin: 3px 0;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -73,18 +88,24 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
+      padding: 0 4px;
     }
 
     .date-field {
-      font-size: 15px;
+      font-size: 12px;
       font-weight: 700;
       color: #000;
+      font-family: 'Helvetica', Arial, sans-serif;
+      padding: 2px 4px;
+      margin: 0 4px;
+      display: inline-block;
+      line-height: 1.2;
     }
 
     .roll-no-group {
       display: inline-flex;
       align-items: center;
-      margin-left: 20px;
+      margin-left: 15px;
     }
 
     .roll-no-group strong {
@@ -99,20 +120,24 @@
     .marks-table, .grade-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .marks-table th, .marks-table td,
     .grade-table th, .grade-table td {
       border: 1px solid #000;
-      padding: 4px;
+      padding: 3px;
       text-align: center;
-      font-size: 15px;
+      font-size: 11px;
+    }
+
+    .marks-table td:nth-child(2) {
+      text-align: left;
     }
 
     .remarks {
-      margin: 5px 0;
-      font-size: 13px;
+      margin: 4px 0;
+      font-size: 11px;
       font-weight: bold;
       text-align: center;
     }
@@ -124,26 +149,26 @@
     .signatures {
       display: flex;
       justify-content: space-between;
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     .signatures p {
-      font-size: 15px;
+      font-size: 12px;
       text-align: center;
     }
 
     .button-container {
       text-align: center;
-      margin: 20px 0;
+      margin: 15px 0;
     }
 
     button {
-      padding: 10px 20px;
-      font-size: 14px;
+      padding: 8px 16px;
+      font-size: 12px;
       background-color: #2e86de;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -152,12 +177,28 @@
       background-color: #1e70bf;
     }
 
-    .student-name-input,
+    .student-name-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #000;
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+      font-family: 'Helvetica', Arial, sans-serif;
+      outline: none;
+      padding: 2px 4px;
+      margin: 0 4px;
+      vertical-align: baseline;
+      line-height: 1.2;
+      width: auto;
+      min-width: 80px;
+    }
+
     .roll-no-input {
       background: transparent;
       border: none;
       border-bottom: 1px solid #000;
-      font-size: 15px;
+      font-size: 12px;
       font-weight: 700;
       color: #000;
       font-family: Arial, sans-serif;
@@ -166,16 +207,8 @@
       margin: 0;
       vertical-align: baseline;
       line-height: 1;
-      width: auto;
-    }
-
-    .student-name-input {
-      min-width: 100px;
-    }
-
-    .roll-no-input {
-      min-width: 30px;
       text-align: center;
+      min-width: 25px;
     }
 
     .marks-input,
@@ -189,7 +222,7 @@
     .absent-days-input {
       background: transparent;
       border: none;
-      font-size: 15px;
+      font-size: 11px;
       font-weight: 700;
       color: #000;
       font-family: Arial, sans-serif;
@@ -202,44 +235,44 @@
 
     .marks-input,
     .total-input {
-      width: 40px;
+      width: 35px;
     }
 
     .grade-input {
-      width: 30px;
+      width: 25px;
     }
 
     .grade-point-input {
-      width: 40px;
+      width: 35px;
     }
 
     .result-input {
-      width: 60px;
+      width: 50px;
     }
 
     .rank-input {
-      width: 40px;
+      width: 35px;
     }
 
     .working-days-input,
     .present-days-input,
     .absent-days-input {
-      width: 50px;
+      width: 40px;
     }
 
     .class-select,
     .section-select {
       background: transparent;
       border: none;
-      font-size: 15px;
+      font-size: 12px;
       font-weight: 700;
       color: #000;
-      font-family: Arial, sans-serif;
+      font-family: 'Helvetica', Arial, sans-serif;
       outline: none;
-      padding: 0;
+      padding: 2px 4px;
+      margin: 0 4px;
       vertical-align: baseline;
-      line-height: 1;
-      margin-left: 5px;
+      line-height: 1.2;
       cursor: pointer;
     }
 
@@ -254,7 +287,7 @@
       position: absolute;
       visibility: hidden;
       white-space: pre;
-      font-size: 15px;
+      font-size: 12px;
       font-weight: 700;
       font-family: Arial, sans-serif;
     }
@@ -263,7 +296,7 @@
       html, body {
         margin: 0 !important;
         padding: 0 !important;
-        background: white !important;
+        background: transparent !important;
         width: 210mm !important;
         height: 297mm !important;
         -webkit-print-color-adjust: exact !important;
@@ -272,11 +305,12 @@
       }
 
       .report-card {
-        margin: 0 auto !important;
-        padding: 10mm !important;
+        margin: 0 !important;
+        padding: 8mm !important;
         width: 210mm !important;
         height: 297mm !important;
         box-sizing: border-box;
+        background-color: transparent !important;
         page-break-inside: avoid;
         overflow: hidden !important;
       }
@@ -284,6 +318,8 @@
       .report-card-border {
         height: 100%;
         box-sizing: border-box;
+        padding: 5mm;
+        background: transparent !important;
       }
 
       .button-container,
@@ -292,18 +328,31 @@
       }
 
       .header {
+        position: relative !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        margin-bottom: 8px !important;
+        color: #000 !important;
+        font-family: "Algerian", "Times New Roman", serif !important;
+        border: 4px double #000 !important;
+        padding: 4px !important;
+        box-sizing: border-box !important;
+        min-height: 90px !important;
       }
 
       .header-logo {
-        width: 100px !important;
-        height: 100px !important;
-        margin-right: 10px !important;
+        position: absolute !important;
+        left: 8px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 80px !important;
+        height: 80px !important;
+        object-fit: contain !important;
       }
 
       .header-text {
+        width: 100% !important;
         text-align: center !important;
       }
 
@@ -312,17 +361,23 @@
         justify-content: space-between !important;
         align-items: center !important;
         width: 100% !important;
+        padding: 0 4px !important;
       }
 
       .date-field {
-        font-size: 15px !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
         color: #000 !important;
+        font-family: 'Helvetica', Arial, sans-serif !important;
+        padding: 2px 4px !important;
+        margin: 0 4px !important;
+        line-height: 1.2 !important;
+        display: inline-block !important;
       }
 
       .roll-no-group {
         display: inline !important;
-        margin-left: 20px !important;
+        margin-left: 15px !important;
       }
 
       .roll-no-group strong {
@@ -337,7 +392,7 @@
 
       .roll-no-value {
         display: inline !important;
-        font-size: 15px !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
         font-family: Arial, sans-serif !important;
         color: #000 !important;
@@ -346,7 +401,7 @@
         margin: 0 !important;
         padding: 0 !important;
         text-align: center !important;
-        min-width: 30px !important;
+        min-width: 25px !important;
         width: auto !important;
       }
 
@@ -362,20 +417,17 @@
         border-bottom: none !important;
         background: transparent !important;
         outline: none !important;
-        font-size: 15px !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
-        font-family: Arial, sans-serif !important;
+        font-family: 'Helvetica', Arial, sans-serif !important;
         color: #000 !important;
         vertical-align: middle !important;
-        line-height: 1 !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        line-height: 1.2 !important;
+        margin: 0 4px !important;
+        padding: 2px 4px !important;
         width: auto !important;
         display: inline-block !important;
-      }
-
-      .student-name-input {
-        min-width: 100px !important;
+        min-width: 80px !important;
       }
 
       .marks-input,
@@ -393,12 +445,16 @@
         border: none !important;
         background: transparent !important;
         outline: none !important;
-        font-size: 15px !important;
+        font-size: 11px !important;
         font-weight: 700 !important;
         vertical-align: baseline !important;
         line-height: 1 !important;
         text-align: center !important;
-        margin-left: 5px !important;
+        margin-left: 4px !important;
+      }
+
+      .marks-table td:nth-child(2) {
+        text-align: left !important;
       }
 
       .class-select,
@@ -409,11 +465,14 @@
         border: none !important;
         background: transparent !important;
         outline: none !important;
-        font-size: 15px !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
+        font-family: 'Helvetica', Arial, sans-serif !important;
+        color: #000 !important;
         vertical-align: baseline !important;
-        line-height: 1 !important;
-        margin-left: 5px !important;
+        line-height: 1.2 !important;
+        margin: 0 4px !important;
+        padding: 2px 4px !important;
       }
 
       @page {
@@ -428,8 +487,9 @@
 <div class="report-card" id="reportCard">
   <div class="report-card-border">
     <div class="header">
-      <img src="https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png" class="header-logo" width="100" height="100" crossorigin="anonymous" onerror="console.error('Logo failed to load from GitHub URL. Check the URL or CORS settings.'); alert('Logo image failed to load. Please check the URL or try a local file.');">
+      <img src="https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png" class="header-logo" width="80" height="80" crossorigin="anonymous" onerror="console.error('Logo failed to load'); alert('Logo image failed to load');">
       <div class="header-text">
+        <p style="font-family: Arial, sans-serif; font-size: 14px; margin: 1px 0; font-weight: bold;">"Education For Wisdom"</p>
         <h1>MAISTHAN ENGLISH BOARDING SCHOOL</h1>
         <h2>KAMALMUNICIPALITY-8, KAMALPUR, SINDHULI</h2>
         <h3>GRADE - SHEET</h3>
@@ -464,7 +524,7 @@
         <span class="roll-no-group">
           <strong>Roll No:</strong><input type="text" class="roll-no-input" id="rollNo" value="" placeholder=""><span class="roll-no-value" id="rollNoValue"></span>
         </span>
-        <strong style="margin-left: 20px;">Section:</strong>
+        <strong style="margin-left: 15px;">Section:</strong>
         <select class="section-select" id="sectionSelect">
           <option value="A" selected>A</option>
           <option value="B">B</option>
@@ -535,7 +595,7 @@
           <td><input type="text" class="grade-point-input" id="sciGradePoint" value="" readonly></td>
         </tr>
         <tr>
-          <td>5</td><td>Social Studies</td><td>100</td><td>40</td>
+          <td>5</td><td>Social</td><td>100</td><td>40</td>
           <td><input type="text" class="marks-input" id="soc1" value="" oninput="calculateMarks()"></td>
           <td><input type="text" class="marks-input" id="soc2" value="" oninput="calculateMarks()"></td>
           <td><input type="text" class="marks-input" id="soc3" value="" oninput="calculateMarks()"></td>
@@ -555,17 +615,7 @@
           <td><input type="text" class="grade-point-input" id="gkGradePoint" value="" readonly></td>
         </tr>
         <tr>
-          <td>7</td><td>Computer</td><td>100</td><td>40</td>
-          <td><input type="text" class="marks-input" id="comp1" value="" oninput="calculateMarks()"></td>
-          <td><input type="text" class="marks-input" id="comp2" value="" oninput="calculateMarks()"></td>
-          <td><input type="text" class="marks-input" id="comp3" value="" oninput="calculateMarks()"></td>
-          <td><input type="text" class="marks-input" id="comp4" value="" oninput="calculateMarks()"></td>
-          <td><input type="text" class="total-input" id="compTotal" value="" readonly></td>
-          <td><input type="text" class="grade-input" id="compGrade" value="" readonly></td>
-          <td><input type="text" class="grade-point-input" id="compGradePoint" value="" readonly></td>
-        </tr>
-        <tr>
-          <td>8</td><td>Moral Science</td><td>100</td><td>40</td>
+          <td>7</td><td>Moral Science</td><td>100</td><td>40</td>
           <td><input type="text" class="marks-input" id="moral1" value="" oninput="calculateMarks()"></td>
           <td><input type="text" class="marks-input" id="moral2" value="" oninput="calculateMarks()"></td>
           <td><input type="text" class="marks-input" id="moral3" value="" oninput="calculateMarks()"></td>
@@ -575,7 +625,7 @@
           <td><input type="text" class="grade-point-input" id="moralGradePoint" value="" readonly></td>
         </tr>
         <tr>
-          <td>9</td><td>Drawing</td><td>100</td><td>40</td>
+          <td>8</td><td>Drawing</td><td>100</td><td>40</td>
           <td><input type="text" class="marks-input" id="draw1" value="" oninput="calculateMarks()"></td>
           <td><input type="text" class="marks-input" id="draw2" value="" oninput="calculateMarks()"></td>
           <td><input type="text" class="marks-input" id="draw3" value="" oninput="calculateMarks()"></td>
@@ -583,6 +633,26 @@
           <td><input type="text" class="total-input" id="drawTotal" value="" readonly></td>
           <td><input type="text" class="grade-input" id="drawGrade" value="" readonly></td>
           <td><input type="text" class="grade-point-input" id="drawGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>9</td><td>Computer</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="comp1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="comp2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="comp3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="comp4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="compTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="compGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="compGradePoint" value="" readonly></td>
+        </tr>
+        <tr>
+          <td>10</td><td>Handwriting</td><td>100</td><td>40</td>
+          <td><input type="text" class="marks-input" id="hand1" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="hand2" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="hand3" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="marks-input" id="hand4" value="" oninput="calculateMarks()"></td>
+          <td><input type="text" class="total-input" id="handTotal" value="" readonly></td>
+          <td><input type="text" class="grade-input" id="handGrade" value="" readonly></td>
+          <td><input type="text" class="grade-point-input" id="handGradePoint" value="" readonly></td>
         </tr>
       </tbody>
       <tfoot>
@@ -639,27 +709,38 @@
     <table class="grade-table">
       <thead>
         <tr>
-          <th style="font-family: 'Algerian'; font-size: 20px;">REMARKS</th>
+          <th style="font-family: 'Algerian'; font-size: 16px;">REMARKS</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th id="promotionClass" style="font-family: 'Algerian'; font-size: 15px;">PROMOTION GRANTED TO CLASS - IV (FOUR)</th>
+          <th id="promotionClass" style="font-family: 'Algerian'; font-size: 12px;">PROMOTION GRANTED TO CLASS - IV (FOUR)</th>
         </tr>
       </tbody>
     </table>
 
-    <div class="signatures">
-      <p>    _________________________<br>Class Teacher's Sign</p>
-      <p>_________________________    <br>Principal's Sign</p>
-    </div>
+    <table class="grade-table">
+      <thead>
+        <tr>
+          <th>
+            <div class="signatures">
+              <p>_________________________<br>Class Teacher's Sign</p>
+              <p>_________________________<br>Principal's Sign</p>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    
   </div>
 </div>
-
 <div class="button-container">
-  <button onclick="downloadImage()">Download Report Card Image</button>
-  <button onclick="printReportCard()">Print Report Card</button>
-</div>
+      <button onclick="downloadImage()">Download Report Card Image</button>
+      <button onclick="printReportCard()">Print Report Card</button>
+    </div>
 
 <span id="text-measure"></span>
 
@@ -669,7 +750,7 @@ function gregorianToNepali(year, month, day) {
   let nepaliMonth = month;
   let nepaliDay = day + 17;
   if (nepaliDay > 30) {
-    nepaliDay -= 30;
+    nepaliDayKILL -= 30;
     nepaliMonth++;
   }
   if (nepaliMonth > 12) {
@@ -717,9 +798,10 @@ function calculateMarks() {
     { prefix: 'sci', totalId: 'sciTotal', gradeId: 'sciGrade', gradePointId: 'sciGradePoint' },
     { prefix: 'soc', totalId: 'socTotal', gradeId: 'socGrade', gradePointId: 'socGradePoint' },
     { prefix: 'gk', totalId: 'gkTotal', gradeId: 'gkGrade', gradePointId: 'gkGradePoint' },
-    { prefix: 'comp', totalId: 'compTotal', gradeId: 'compGrade', gradePointId: 'compGradePoint' },
     { prefix: 'moral', totalId: 'moralTotal', gradeId: 'moralGrade', gradePointId: 'moralGradePoint' },
-    { prefix: 'draw', totalId: 'drawTotal', gradeId: 'drawGrade', gradePointId: 'drawGradePoint' }
+    { prefix: 'draw', totalId: 'drawTotal', gradeId: 'drawGrade', gradePointId: 'drawGradePoint' },
+    { prefix: 'comp', totalId: 'compTotal', gradeId: 'compGrade', gradePointId: 'compGradePoint' },
+    { prefix: 'hand', totalId: 'handTotal', gradeId: 'handGrade', gradePointId: 'handGradePoint' }
   ];
 
   let grandTotal = 0;
@@ -768,7 +850,7 @@ function calculateMarks() {
   const gpa = subjectsWithMarks > 0 ? totalGradePoints / subjectsWithMarks : 0;
   document.getElementById('gpa').textContent = gpa > 0 ? gpa.toFixed(1) : '';
 
-  document.getElementById('result').value = percentage > 40 ? 'Pass' : percentage > 0 ? 'Fail' : '';
+  document.getElementById('result').value = percentage >= 40 ? 'Pass' : percentage > 0 ? 'Fail' : '';
 }
 
 function updatePromotionClass() {
@@ -802,15 +884,15 @@ function resizeInputs() {
   const measure = document.getElementById('text-measure');
   const nameText = nameInput.value || nameInput.placeholder || '          ';
   measure.textContent = nameText;
-  let width = measure.getBoundingClientRect().width + 10;
-  nameInput.style.width = Math.max(width, 100) + 'px';
+  let width = measure.getBoundingClientRect().width + 8;
+  nameInput.style.width = Math.max(width, 80) + 'px';
 
   const rollInput = document.getElementById('rollNo');
   const rollValueSpan = document.getElementById('rollNoValue');
   const rollText = rollInput.value || rollInput.placeholder || '  ';
   measure.textContent = rollText;
-  width = measure.getBoundingClientRect().width + 10;
-  const finalWidth = Math.max(width, 30);
+  width = measure.getBoundingClientRect().width + 8;
+  const finalWidth = Math.max(width, 25);
   rollInput.style.width = finalWidth + 'px';
   rollValueSpan.style.width = finalWidth + 'px';
   rollValueSpan.textContent = rollInput.value || rollInput.placeholder || '  ';
@@ -848,27 +930,25 @@ function downloadImage() {
   const safeDate = nepaliDate.replace(/\//g, '-');
   const filename = `Report_Card_${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
 
-  console.log('Starting html2canvas rendering for URL: https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png');
   html2canvas(reportCard, {
-    scale: 4,
+    scale: 3, // Reduced scale for better performance while maintaining quality
     useCORS: true,
-    logging: true
+    logging: true,
+    width: 794, // Approx 210mm at 96 DPI
+    height: 1123 // Approx 297mm at 96 DPI
   }).then(canvas => {
-    console.log('Canvas rendered successfully');
     studentNameInput.style.borderBottom = nameOriginalBorder;
     rollNoInput.style.borderBottom = rollOriginalBorder;
 
     const link = document.createElement('a');
     link.download = filename;
-    link.href = canvas.toDataURL('image/jpeg');
+    link.href = canvas.toDataURL('image/jpeg', 0.9);
     link.click();
     alert(`Report card saved as ${filename}`);
   }).catch(error => {
-    console.error('html2canvas error:', error);
-    console.error('Possible cause: The logo at https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png may not have CORS headers.');
     studentNameInput.style.borderBottom = nameOriginalBorder;
     rollNoInput.style.borderBottom = rollOriginalBorder;
-    alert('Error saving report card: ' + error.message + '. The logo may not support CORS. Try using a local file or Base64 encoding.');
+    alert('Error saving report card: ' + error.message);
   });
 }
 
