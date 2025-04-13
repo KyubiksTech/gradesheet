@@ -928,7 +928,7 @@ function downloadImage() {
   const safeStudentName = studentName.trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') || 'No_Name';
   const safeRollNo = rollNo.trim().replace(/[^0-9]/g, '') || 'No_Roll';
   const safeDate = nepaliDate.replace(/\//g, '-');
-  const filename = `Report_Card_${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
+  const filename = `${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
 
   html2canvas(reportCard, {
     scale: 3, // Reduced scale for better performance while maintaining quality
@@ -944,11 +944,11 @@ function downloadImage() {
     link.download = filename;
     link.href = canvas.toDataURL('image/jpeg', 0.9);
     link.click();
-    alert(`Report card saved as ${filename}`);
+    alert(`Grade Sheet saved as ${filename}`);
   }).catch(error => {
     studentNameInput.style.borderBottom = nameOriginalBorder;
     rollNoInput.style.borderBottom = rollOriginalBorder;
-    alert('Error saving report card: ' + error.message);
+    alert('Error saving Grade Sheet: ' + error.message);
   });
 }
 
