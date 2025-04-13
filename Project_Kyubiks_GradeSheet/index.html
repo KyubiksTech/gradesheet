@@ -208,7 +208,21 @@
       vertical-align: baseline;
       line-height: 1;
       text-align: center;
-      min-width: 25px;
+      min-width: 20px;
+      width: 20px;
+    }
+
+    .roll-no-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+      font-family: Arial, sans-serif;
+      line-height: 1;
+      text-align: center;
+      min-width: 20px;
+      width: auto;
+      padding: 0;
+      margin: 0;
     }
 
     .marks-input,
@@ -376,7 +390,8 @@
       }
 
       .roll-no-group {
-        display: inline !important;
+        display: inline-flex !important;
+        align-items: center !important;
         margin-left: 15px !important;
       }
 
@@ -391,18 +406,18 @@
       }
 
       .roll-no-value {
-        display: inline !important;
+        display: inline-block !important;
         font-size: 12px !important;
         font-weight: 700 !important;
         font-family: Arial, sans-serif !important;
         color: #000 !important;
         vertical-align: middle !important;
         line-height: 1 !important;
-        margin: 0 !important;
-        padding: 0 !important;
         text-align: center !important;
-        min-width: 25px !important;
+        min-width: 20px !important;
         width: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
       }
 
       #promotionClass {
@@ -634,7 +649,6 @@
           <td><input type="text" class="grade-input" id="handGrade" value="" readonly></td>
           <td><input type="text" class="grade-point-input" id="handGradePoint" value="" readonly></td>
         </tr>
-
         <tr>
           <td>9</td><td>Computer</td><td>100</td><td>40</td>
           <td><input type="text" class="marks-input" id="comp1" value="" oninput="calculateMarks()"></td>
@@ -645,7 +659,6 @@
           <td><input type="text" class="grade-input" id="compGrade" value="" readonly></td>
           <td><input type="text" class="grade-point-input" id="compGradePoint" value="" readonly></td>
         </tr>
-        
       </tbody>
       <tfoot>
         <tr>
@@ -725,14 +738,12 @@
       <tbody>
       </tbody>
     </table>
-
-    
   </div>
 </div>
 <div class="button-container">
-      <button onclick="downloadImage()">Download Report Card Image</button>
-      <button onclick="printReportCard()">Print Report Card</button>
-    </div>
+  <button onclick="downloadImage()">Download Report Card Image</button>
+  <button onclick="printReportCard()">Print Report Card</button>
+</div>
 
 <span id="text-measure"></span>
 
@@ -742,7 +753,7 @@ function gregorianToNepali(year, month, day) {
   let nepaliMonth = month;
   let nepaliDay = day + 17;
   if (nepaliDay > 30) {
-    nepaliDayKILL -= 30;
+    nepaliDay -= 30;
     nepaliMonth++;
   }
   if (nepaliMonth > 12) {
@@ -750,11 +761,11 @@ function gregorianToNepali(year, month, day) {
     nepaliYear++;
   }
   const gregorianDate = new Date(year, month - 1, day);
-  const referenceDate = new Date(2025, 3, 11);
+  const referenceDate = new Date(2025, 3, 13);
   const diffDays = Math.floor((gregorianDate - referenceDate) / (1000 * 60 * 60 * 24));
   nepaliYear = 2081;
   nepaliMonth = 12;
-  nepaliDay = 29 + diffDays;
+  nepaliDay = 31 + diffDays;
   const nepaliMonths = [31, 30, 32, 31, 32, 31, 30, 29, 30, 29, 30, 30];
   while (nepaliDay > nepaliMonths[nepaliMonth - 1]) {
     nepaliDay -= nepaliMonths[nepaliMonth - 1];
@@ -790,27 +801,28 @@ function calculateMarks() {
     { prefix: 'sci', totalId: 'sciTotal', gradeId: 'sciGrade', gradePointId: 'sciGradePoint' },
     { prefix: 'soc', totalId: 'socTotal', gradeId: 'socGrade', gradePointId: 'socGradePoint' },
     { prefix: 'gk', totalId: 'gkTotal', gradeId: 'gkGrade', gradePointId: 'gkGradePoint' },
-    { prefix: 'moral', totalId: 'moralTotal', gradeId: 'moralGrade', gradePointId: 'moralGradePoint' },
     { prefix: 'draw', totalId: 'drawTotal', gradeId: 'drawGrade', gradePointId: 'drawGradePoint' },
-    { prefix: 'comp', totalId: 'compTotal', gradeId: 'compGrade', gradePointId: 'compGradePoint' },
-    { prefix: 'hand', totalId: 'handTotal', gradeId: 'handGrade', gradePointId: 'handGradePoint' }
+    { prefix: 'hand', totalId: 'handTotal', gradeId: 'handGrade', gradePointId: 'handGradePoint' },
+    { prefix: 'comp', totalId: 'compTotal', gradeId: 'compGrade', gradePointId: 'compGradePoint' }
   ];
 
   let grandTotal = 0;
   let totalGradePoints = 0;
   let subjectsWithMarks = 0;
   const fullMarksPerSubject = 100;
-  const totalSubjects = subjects.length;
 
   subjects.forEach(subject => {
-    const mark1 = parseFloat(document.getElementById(`${subject.prefix}1`).value) || 0;
-    const mark2 = parseFloat(document.getElementById(`${subject.prefix}2`).value) || 0;
-    const mark3 = parseFloat(document.getElementById(`${subject.prefix}3`).value) || 0;
-    const mark4 = parseFloat(document.getElementById(`${subject.prefix}4`).value) || 0;
+    const mark1 = parseFloat(document.getElementById(`${subject.prefix}1`)?.value) || 0;
+    const mark2 = parseFloat(document.getElementById(`${subject.prefix}2`)?.value) || 0;
+    const mark3 = parseFloat(document.getElementById(`${subject.prefix}3`)?.value) || 0;
+    const mark4 = parseFloat(document.getElementById(`${subject.prefix}4`)?.value) || 0;
     const total = mark1 + mark2 + mark3 + mark4;
 
+    const totalElement = document.getElementById(subject.totalId);
+    if (!totalElement) return;
+
     if (mark1 || mark2 || mark3 || mark4) {
-      document.getElementById(subject.totalId).value = total.toFixed(1);
+      totalElement.value = total.toFixed(1);
       subjectsWithMarks++;
 
       let grade, gradePoint;
@@ -829,7 +841,7 @@ function calculateMarks() {
       totalGradePoints += gradePoint;
       grandTotal += total;
     } else {
-      document.getElementById(subject.totalId).value = '';
+      totalElement.value = '';
       document.getElementById(subject.gradeId).value = '';
       document.getElementById(subject.gradePointId).value = '';
     }
@@ -837,7 +849,7 @@ function calculateMarks() {
 
   document.getElementById('totalMarks').textContent = grandTotal > 0 ? grandTotal.toFixed(1) : '';
   const percentage = grandTotal > 0 ? (grandTotal / (fullMarksPerSubject * subjectsWithMarks)) * 100 : 0;
-  document.getElementById('percentage').textContent = percentage > 0 ? percentage.toFixed(2) : '';
+  document.getElementById('percentage').textContent = percentage > 0 ? percentage.toFixed(2) + '%' : '';
 
   const gpa = subjectsWithMarks > 0 ? totalGradePoints / subjectsWithMarks : 0;
   document.getElementById('gpa').textContent = gpa > 0 ? gpa.toFixed(1) : '';
@@ -883,11 +895,11 @@ function resizeInputs() {
   const rollValueSpan = document.getElementById('rollNoValue');
   const rollText = rollInput.value || rollInput.placeholder || '  ';
   measure.textContent = rollText;
-  width = measure.getBoundingClientRect().width + 8;
-  const finalWidth = Math.max(width, 25);
+  width = measure.getBoundingClientRect().width + 4;
+  const finalWidth = Math.max(width, 20);
   rollInput.style.width = finalWidth + 'px';
   rollValueSpan.style.width = finalWidth + 'px';
-  rollValueSpan.textContent = rollInput.value || rollInput.placeholder || '  ';
+  rollValueSpan.textContent = rollInput.value || '';
 }
 
 window.onload = function() {
@@ -905,10 +917,14 @@ function downloadImage() {
 
   const studentNameInput = document.getElementById('studentName');
   const rollNoInput = document.getElementById('rollNo');
+  const rollNoValue = document.getElementById('rollNoValue');
   const nameOriginalBorder = studentNameInput.style.borderBottom;
   const rollOriginalBorder = rollNoInput.style.borderBottom;
   studentNameInput.style.borderBottom = 'none';
   rollNoInput.style.borderBottom = 'none';
+  rollNoInput.style.display = 'none';
+  rollNoValue.style.display = 'inline-block';
+  rollNoValue.textContent = rollNoInput.value || '';
 
   const reportCard = document.getElementById('reportCard');
   const studentName = document.getElementById('studentName').value;
@@ -923,14 +939,17 @@ function downloadImage() {
   const filename = `${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
 
   html2canvas(reportCard, {
-    scale: 3, // Reduced scale for better performance while maintaining quality
+    scale: 3,
     useCORS: true,
     logging: true,
-    width: 794, // Approx 210mm at 96 DPI
-    height: 1123 // Approx 297mm at 96 DPI
+    width: 794,
+    height: 1123
   }).then(canvas => {
     studentNameInput.style.borderBottom = nameOriginalBorder;
     rollNoInput.style.borderBottom = rollOriginalBorder;
+    rollNoInput.style.display = 'inline-block';
+    rollNoValue.style.display = 'none';
+    rollNoValue.textContent = '';
 
     const link = document.createElement('a');
     link.download = filename;
@@ -940,12 +959,18 @@ function downloadImage() {
   }).catch(error => {
     studentNameInput.style.borderBottom = nameOriginalBorder;
     rollNoInput.style.borderBottom = rollOriginalBorder;
+    rollNoInput.style.display = 'inline-block';
+    rollNoValue.style.display = 'none';
+    rollNoValue.textContent = '';
     alert('Error saving Grade Sheet: ' + error.message);
   });
 }
 
 function printReportCard() {
   resizeInputs();
+  const rollNoInput = document.getElementById('rollNo');
+  const rollNoValue = document.getElementById('rollNoValue');
+  rollNoValue.textContent = rollNoInput.value || '';
   window.print();
 }
 </script>
