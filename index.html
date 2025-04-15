@@ -1,3 +1,5 @@
+<!--Copyright KyubiksTech 2025-->
+<!--Grade Sheet @KyubiksTech 2025-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -966,10 +968,10 @@ async function downloadImage() {
       select.parentNode.replaceChild(span, select);
     });
 
-    // Ensure roll number is handled
+    // Hide the roll-no-value span to prevent duplication
     const rollNoValue = clone.querySelector('#rollNoValue');
     if (rollNoValue) {
-      rollNoValue.style.display = 'inline-block';
+      rollNoValue.style.display = 'none';
     }
 
     // Generate filename
