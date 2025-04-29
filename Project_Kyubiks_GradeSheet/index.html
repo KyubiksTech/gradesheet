@@ -1,5 +1,6 @@
 <!--Copyright KyubiksTech 2025-->
 <!--Grade Sheet @KyubiksTech 2025-->
+<!--Share Copyright To NLT Production-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -356,7 +357,7 @@
       <div class="header">
         <img src="https://raw.githubusercontent.com/KyubiksTech/gradesheet/refs/heads/main/icon/logo.png" class="header-logo" width="80" height="80" crossorigin="anonymous" onerror="alert('Logo image failed to load');">
         <div class="header-text">
-          <p style="font-family: Arial, sans-serif; font-size: 14px; font-weight: bold;">"Education For Wisdom"</p>
+          <p style="font-family: Arial, sans nations-serif; font-size: 14px; font-weight: bold;">"Education For Wisdom"</p>
           <h1>MAISTHAN ENGLISH BOARDING SCHOOL</h1>
           <h2>KAMALMUNICIPALITY-8, KAMALPUR, SINDHULI</h2>
           <h3>GRADE - SHEET</h3>
@@ -397,6 +398,7 @@
           <select class="section-select" id="sectionSelect">
             <option value="A" selected>A</option>
             <option value="B">B</option>
+            <]');
             <option value="C">C</option>
             <option value="D">D</option>
           </select>
@@ -595,7 +597,7 @@
 
   <div class="button-container">
     <button onclick="downloadImage()">Download Grade Sheet Image</button>
-    <button onclick="downloadImage()">Download Grade Sheet Copy</button>
+    <button onclick="printReportCard()">Print Grade Sheet</button>
   </div>
 
   <span id="text-measure"></span>
@@ -846,6 +848,76 @@
         alert(`Grade Sheet saved as ${filename}`);
       } catch (error) {
         alert('Error saving Grade Sheet: ' + error.message);
+        console.error(error);
+      }
+    }
+
+    async function printReportCard() {
+      try {
+        await document.fonts.ready;
+        resizeInputs();
+
+        const reportCard = document.getElementById('reportCard');
+        const clone = reportCard.cloneNode(true);
+        clone.style.position = 'absolute';
+        clone.style.left = '-9999px';
+        clone.style.width = '210mm';
+        clone.style.height = '297mm';
+        clone.style.padding = '8mm';
+        clone.style.transform = 'none';
+        document.body.appendChild(clone);
+
+        const classSelect = document.getElementById('classSelect');
+        const sectionSelect = document.getElementById('sectionSelect');
+        const selectedClassText = classSelect.options[classSelect.selectedIndex].text;
+        const selectedSectionText = sectionSelect.options[sectionSelect.selectedIndex].text;
+
+        clone.querySelectorAll('input').forEach(input => {
+          const span = document.createElement('span');
+          span.textContent = input.value || '';
+          span.style.cssText = `
+            font-size: ${getComputedStyle(input).fontSize};
+            font-weight: ${getComputedStyle(input).fontWeight};
+            font-family: ${getComputedStyle(input).fontFamily};
+            color: ${getComputedStyle(input).color};
+            display: inline-block;
+            text-align: ${getComputedStyle(input).textAlign || 'left'};
+            width: ${input.style.width || getComputedStyle(input).width};
+            padding: ${getComputedStyle(input).padding};
+            line-height: ${getComputedStyle(input).lineHeight};
+            vertical-align: ${getComputedStyle(input).verticalAlign};
+            border: none;
+            background: transparent;
+          `;
+          input.parentNode.replaceChild(span, input);
+        });
+
+        clone.querySelectorAll('select').forEach(select => {
+          const span = document.createElement('span');
+          span.textContent = select.id === 'classSelect' ? selectedClassText : selectedSectionText;
+          span.style.cssText = `
+            font-size: ${getComputedStyle(select).fontSize};
+            font-weight: ${getComputedStyle(select).fontWeight};
+            font-family: ${getComputedStyle(select).fontFamily};
+            color: ${getComputedStyle(select).color};
+            display: inline-block;
+            padding: ${getComputedStyle(select).padding};
+            line-height: ${getComputedStyle(select).lineHeight};
+            vertical-align: ${getComputedStyle(select).verticalAlign};
+            border: none;
+            background: transparent;
+          `;
+          select.parentNode.replaceChild(span, select);
+        });
+
+        clone.querySelector('#rollNoValue').style.display = 'none';
+        updatePromotionClass(clone);
+
+        window.print();
+
+        document.body.removeChild(clone);
+      } catch (error) {
+        alert('Error preparing Grade Sheet for printing: ' + error.message);
         console.error(error);
       }
     }
