@@ -27,9 +27,9 @@
 
     .report-card {
       background-color: #E4784A;
-      width: 793.7px; /* 210mm at 96 DPI (210 * 96 / 25.4) */
-      height: 1122.5px; /* 297mm at 96 DPI (297 * 96 / 25.4) */
-      padding: 30.24px; /* 8mm at 96 DPI (8 * 96 / 25.4) */
+      width: 793.7px;
+      height: 1122.5px;
+      padding: 30.24px;
       margin: 0 auto;
       overflow: hidden;
       position: relative;
@@ -49,7 +49,7 @@
       border: 4px double #000;
       width: 100%;
       height: 100%;
-      padding: 18.9px; /* 5mm at 96 DPI (5 * 96 / 25.4) */
+      padding: 18.9px;
     }
 
     .header {
@@ -249,12 +249,12 @@
       text-align: center;
     }
 
-    .marks-input, .total-input { width: 35px; }
-    .grade-input { width: 25px; }
-    .grade-point-input { width: 35px; }
-    .result-input { width: 50px; }
-    .rank-input { width: 35px; }
-    .working-days-input, .present-days-input, .absent-days-input { width: 40px; }
+    .marks-input, .total-input { width: 30px; }
+    .grade-input { width: 20px; }
+    .grade-point-input { width: 30px; }
+    .result-input { width: 45px; }
+    .rank-input { width: 30px; }
+    .working-days-input, .present-days-input, .absent-days-input { width: 35px; }
 
     .class-select, .section-select {
       background: transparent;
@@ -292,62 +292,107 @@
       }
 
       html, body {
-        margin: 0;
-        padding: 0;
+        margin: 0 !important;
+        padding: 0 !important;
         background: transparent !important;
-        width: 210mm;
-        height: 297mm;
-        overflow: hidden;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        width: 210mm !important;
+        height: 297mm !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
 
       .report-card {
-        margin: 0;
-        padding: 8mm;
-        width: 210mm;
-        height: 297mm;
+        margin: 0 !important;
+        padding: 6mm !important;
+        width: 210mm !important;
+        height: 297mm !important;
         background: transparent !important;
         page-break-inside: avoid;
-        overflow: hidden;
+        overflow: hidden !important;
         transform: none;
       }
 
       .report-card-border {
         height: 100%;
-        padding: 5mm;
+        padding: 4mm !important;
         background: transparent !important;
       }
 
       .button-container, button {
-        display: none;
+        display: none !important;
       }
 
       .student-name-input, .roll-no-input, .marks-input, .total-input,
       .grade-input, .grade-point-input, .result-input, .rank-input,
       .working-days-input, .present-days-input, .absent-days-input,
       .class-select, .section-select {
-        border: none;
-        background: transparent;
-        outline: none;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
+        border: none !important;
+        background: transparent !important;
+        outline: none !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
         text-align: inherit;
         width: auto;
-        display: inline;
+        display: inline-block;
+        font-size: 10px !important;
       }
 
       .roll-no-input {
-        display: none;
+        display: none !important;
       }
 
       .roll-no-value {
-        display: inline-block;
+        display: inline-block !important;
+        font-size: 10px !important;
+      }
+
+      .marks-table th, .marks-table td,
+      .grade-table th, .grade-table td {
+        border: 1px solid #000 !important;
+        padding: 2px !important;
+        text-align: center !important;
+        font-size: 10px !important;
       }
 
       .marks-table td:nth-child(2) {
-        text-align: left;
+        text-align: left !important;
+      }
+
+      .marks-input, .total-input { width: 28px !important; }
+      .grade-input { width: 18px !important; }
+      .grade-point-input { width: 28px !important; }
+      .result-input { width: 40px !important; }
+      .rank-input { width: 28px !important; }
+      .working-days-input, .present-days-input, .absent-days-input { width: 30px !important; }
+
+      .header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 8px !important;
+        color: #000 !important;
+        font-family: "Algerian", "Times New Roman", serif !important;
+        border: 4px double #000 !important;
+        padding: 4px !important;
+        min-height: 90px !important;
+        position: relative !important;
+      }
+
+      .header-logo {
+        position: absolute !important;
+        left: 8px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 80px !important;
+        height: 80px !important;
+        object-fit: contain !important;
+      }
+
+      .header-text {
+        width: 100% !important;
+        text-align: center !important;
       }
     }
   </style>
@@ -765,6 +810,7 @@
         clone.style.height = '1122.5px';
         clone.style.padding = '30.24px';
         clone.style.transform = 'none';
+        clone.style.backgroundColor = '#E4784A';
         document.body.appendChild(clone);
 
         const classSelect = document.getElementById('classSelect');
@@ -781,7 +827,7 @@
             font-family: ${getComputedStyle(input).fontFamily};
             color: ${getComputedStyle(input).color};
             display: inline-block;
-            text-align: ${getComputedStyle(input).textAlign || 'left'};
+            text-align: ${getComputedStyle(input).textAlign || 'center'};
             width: ${input.style.width || getComputedStyle(input).width};
             padding: ${getComputedStyle(input).padding};
             line-height: ${getComputedStyle(input).lineHeight};
@@ -801,6 +847,7 @@
             font-family: ${getComputedStyle(select).fontFamily};
             color: ${getComputedStyle(select).color};
             display: inline-block;
+            text-align: left;
             padding: ${getComputedStyle(select).padding};
             line-height: ${getComputedStyle(select).lineHeight};
             vertical-align: ${getComputedStyle(select).verticalAlign};
@@ -810,7 +857,12 @@
           select.parentNode.replaceChild(span, select);
         });
 
-        clone.querySelector('#rollNoValue').style.display = 'none';
+        const rollNoValue = clone.querySelector('#rollNoValue');
+        if (rollNoValue) {
+          rollNoValue.style.display = 'inline-block';
+          rollNoValue.textContent = document.getElementById('rollNo').value || '';
+        }
+
         updatePromotionClass(clone);
 
         const studentName = document.getElementById('studentName').value;
@@ -824,19 +876,15 @@
         const safeDate = nepaliDate.replace(/\//g, '-');
         const filename = `${safeStudentName}_${classValue}_${safeRollNo}_${section}_${safeDate}.jpg`;
 
-        const dpi = 300;
-        const mmToPx = dpi / 25.4;
-        const widthPx = Math.round(210 * mmToPx); // 2480.3px
-        const heightPx = Math.round(297 * mmToPx); // 3507.9px
-        const scale = 2;
-
         const canvas = await html2canvas(clone, {
-          scale: scale,
+          scale: 2,
           useCORS: true,
           logging: false,
           width: 793.7,
           height: 1122.5,
-          backgroundColor: '#E4784A'
+          backgroundColor: '#E4784A',
+          windowWidth: 793.7,
+          windowHeight: 1122.5
         });
 
         document.body.removeChild(clone);
@@ -847,8 +895,8 @@
         link.click();
         alert(`Grade Sheet saved as ${filename}`);
       } catch (error) {
+        console.error('Error in downloadImage:', error);
         alert('Error saving Grade Sheet: ' + error.message);
-        console.error(error);
       }
     }
 
@@ -863,7 +911,7 @@
         clone.style.left = '-9999px';
         clone.style.width = '210mm';
         clone.style.height = '297mm';
-        clone.style.padding = '8mm';
+        clone.style.padding = '6mm';
         clone.style.transform = 'none';
         document.body.appendChild(clone);
 
@@ -876,12 +924,12 @@
           const span = document.createElement('span');
           span.textContent = input.value || '';
           span.style.cssText = `
-            font-size: ${getComputedStyle(input).fontSize};
+            font-size: 10px;
             font-weight: ${getComputedStyle(input).fontWeight};
             font-family: ${getComputedStyle(input).fontFamily};
             color: ${getComputedStyle(input).color};
             display: inline-block;
-            text-align: ${getComputedStyle(input).textAlign || 'left'};
+            text-align: ${getComputedStyle(input).textAlign || 'center'};
             width: ${input.style.width || getComputedStyle(input).width};
             padding: ${getComputedStyle(input).padding};
             line-height: ${getComputedStyle(input).lineHeight};
@@ -896,11 +944,12 @@
           const span = document.createElement('span');
           span.textContent = select.id === 'classSelect' ? selectedClassText : selectedSectionText;
           span.style.cssText = `
-            font-size: ${getComputedStyle(select).fontSize};
+            font-size: 10px;
             font-weight: ${getComputedStyle(select).fontWeight};
             font-family: ${getComputedStyle(select).fontFamily};
             color: ${getComputedStyle(select).color};
             display: inline-block;
+            text-align: left;
             padding: ${getComputedStyle(select).padding};
             line-height: ${getComputedStyle(select).lineHeight};
             vertical-align: ${getComputedStyle(select).verticalAlign};
@@ -910,15 +959,20 @@
           select.parentNode.replaceChild(span, select);
         });
 
-        clone.querySelector('#rollNoValue').style.display = 'none';
+        const rollNoValue = clone.querySelector('#rollNoValue');
+        if (rollNoValue) {
+          rollNoValue.style.display = 'inline-block';
+          rollNoValue.textContent = document.getElementById('rollNo').value || '';
+        }
+
         updatePromotionClass(clone);
 
         window.print();
 
         document.body.removeChild(clone);
       } catch (error) {
+        console.error('Error in printReportCard:', error);
         alert('Error preparing Grade Sheet for printing: ' + error.message);
-        console.error(error);
       }
     }
 
